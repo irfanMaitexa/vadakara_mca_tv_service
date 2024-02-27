@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tv_service/modules/auth/user_registration.dart';
+import 'package:tv_service/modules/customer/user_root_screen.dart';
 import 'package:tv_service/utils/constants.dart';
 import 'package:tv_service/utils/validator.dart';
 import 'package:tv_service/widgets/custom_button.dart';
@@ -146,13 +147,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginHandler() {
-    setState(() {
-      if(_formKey.currentState!.validate()){
+
+
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UserRootScreen(),), (route) => false);
+    // setState(() {
+    //   if(_formKey.currentState!.validate()){
 
       
       
 
-      }
-    });
+    //   }
+    // });
   }
 }
