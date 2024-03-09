@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tv_service/modules/customer/home/customer_home_screen.dart';
+import 'package:tv_service/modules/customer/customer_home_screen.dart';
 import 'package:tv_service/utils/constants.dart';
 
 class UserRootScreen extends StatefulWidget {
@@ -20,7 +20,6 @@ class _UserRootScreenState extends State<UserRootScreen> {
 
   final _pagesList = const [
     CustomerHomeScreen(),
-    Scaffold(),
     Scaffold(),
     Scaffold(),
   ];
@@ -48,10 +47,7 @@ class _UserRootScreenState extends State<UserRootScreen> {
               icon: Icon(Icons.home),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
-              label: 'Search partner',
-            ),
+            
             BottomNavigationBarItem(
               icon: Icon(Icons.bookmark),
               label: 'Booking',

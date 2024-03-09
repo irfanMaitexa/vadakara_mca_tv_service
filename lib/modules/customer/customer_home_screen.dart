@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tv_service/modules/customer/customer_buy_screen.dart';
+import 'package:tv_service/modules/customer/user_booking_screen.dart';
 import 'package:tv_service/utils/constants.dart';
 import 'package:tv_service/widgets/custom_button.dart';
 
@@ -102,22 +104,21 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      const Text(
-                        'Select your service',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'see all',
-                            style: TextStyle(color: Colors.grey),
-                          ))
-                    ],
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Select your service',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -125,6 +126,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   SizedBox(
                     height: 250,
                     child: ListView.builder(
+                        itemCount: serviceList.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) => GestureDetector(
                               onTap: () {},
@@ -155,7 +157,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           const Text(
-                                            'Turf Park',
+                                            'Tv repair',
                                             maxLines: 2,
                                             overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
@@ -172,7 +174,17 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                                                 .width,
                                             child: CustomButton(
                                               text: 'Book now',
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          UserServiceBookingScreen(
+                                                        images:
+                                                            serviceList[index],
+                                                      ),
+                                                    ));
+                                              },
                                             ),
                                           ),
                                           const SizedBox(
@@ -198,7 +210,16 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CustomerBuyScreen(
+                                      image: tvList[index],
+                                    ),
+                                  ),
+                                );
+                              },
                               child: Container(
                                 width: 150,
                                 margin: const EdgeInsets.only(left: 10),
