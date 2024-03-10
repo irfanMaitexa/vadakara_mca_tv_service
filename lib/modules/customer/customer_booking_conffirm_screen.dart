@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tv_service/modules/customer/customer_check_out_screen.dart';
 import 'package:tv_service/modules/customer/user_root_screen.dart';
 import 'package:tv_service/widgets/custom_button.dart';
 

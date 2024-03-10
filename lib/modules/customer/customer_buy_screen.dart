@@ -106,5 +106,6 @@ class CustomerBuyScreen extends StatelessWidget {
         ],
       ),
     );
+  
   }
 }

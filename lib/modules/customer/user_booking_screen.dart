@@ -3,9 +3,7 @@ import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:tv_service/modules/customer/customer_check_out_screen.dart';
 import 'package:tv_service/widgets/custom_button.dart';
 import 'package:tv_service/utils/constants.dart';
-import 'package:quickalert/quickalert.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:tv_service/modules/customer/customer_view_booking.dart';
+
 
 class UserServiceBookingScreen extends StatefulWidget {
   const UserServiceBookingScreen({Key? key, required this.images})

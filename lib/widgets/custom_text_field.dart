@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final bool ? obscureText;
   final Color ? borderColor;
   String? Function(String?)? validator;
+  final bool ? isEnabled;
 
    CustomTextField({
     Key? key,
@@ -20,6 +21,7 @@ class CustomTextField extends StatelessWidget {
     this.obscureText,
     this.borderColor,
     this.validator,
+    this.isEnabled
   }) : super(key: key);
 
   @override
@@ -34,8 +36,10 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       validator: validator,
       keyboardType: input,
+      enabled: isEnabled,
       obscureText: obscureText??false,
       decoration: InputDecoration(
+
           hintText: hintText,
           enabledBorder: outlineInputBorder,
           focusedBorder: outlineInputBorder,
