@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:tv_service/modules/auth/login.dart';
 import 'package:tv_service/modules/customer/profile/user_edit_profile_screen.dart';
 import 'package:tv_service/modules/customer/user_root_screen.dart';
 import 'package:tv_service/utils/constants.dart';
@@ -93,7 +94,7 @@ class CustomerProfileScreen extends StatelessWidget {
 
                 Navigator.pushAndRemoveUntil(
                   context, 
-                  MaterialPageRoute(builder: (context) => UserRootScreen()), 
+                  MaterialPageRoute(builder: (context) => LoginScreen()), 
                   (route) => false
                   );
                 

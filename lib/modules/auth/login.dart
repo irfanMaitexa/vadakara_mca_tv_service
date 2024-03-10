@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tv_service/modules/auth/user_registration.dart';
 import 'package:tv_service/modules/customer/user_root_screen.dart';
+import 'package:tv_service/modules/technician/tech_root_screen.dart';
 import 'package:tv_service/utils/constants.dart';
 import 'package:tv_service/utils/validator.dart';
 import 'package:tv_service/widgets/custom_button.dart';
@@ -149,14 +150,30 @@ class _LoginScreenState extends State<LoginScreen> {
   void _loginHandler() {
 
 
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UserRootScreen(),), (route) => false);
-    // setState(() {
-    //   if(_formKey.currentState!.validate()){
+    setState(() {
+      if(_formKey.currentState!.validate()){
+
+        if(_emailController.text.trim() == 'user@gmail.com'){
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UserRootScreen(),), (route) => false);
+
+
+
+        }
+
+        if(_emailController.text.trim() == 'techy@gmail.com'){
+          
+
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => home_technician(),), (route) => false);
+
+
+
+
+        }
 
       
       
 
-    //   }
-    // });
+      }
+    });
   }
 }
