@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tv_service/modules/technician/tech_complaint.dart';
 import 'package:tv_service/modules/technician/tech_used_tv_list.dart';
 import 'package:tv_service/widgets/custom_card.dart';
 
@@ -32,6 +33,16 @@ class home_technician extends StatelessWidget {
           Custom_Card(
             image: "assets/images/complaint.png",
             text: "COMPLAINTS",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return TechComplaintScreen();
+                  },
+                ),
+              );
+            },
           ),
           Custom_Card(
             image: "assets/images/rare parts.png",
