@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tv_service/modules/auth/user_registration.dart';
 import 'package:tv_service/modules/customer/user_root_screen.dart';
+import 'package:tv_service/modules/staff/staff_root_screen.dart';
 import 'package:tv_service/modules/technician/tech_root_screen.dart';
 import 'package:tv_service/utils/constants.dart';
 import 'package:tv_service/utils/validator.dart';
@@ -18,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final _formKey =   GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool _obscureText = true;
   var outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(10.0),
@@ -40,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        
         title: const Text(
           'Login',
           style: TextStyle(
@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(
           child: Form(
-            key:  _formKey,
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -61,11 +61,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomTextField(
                   hintText: 'Enter Email',
                   controller: _emailController,
-                  
                   borderColor: Colors.grey.shade300,
                   validator: (value) {
-                   return validateEmail(value);
-                    
+                    return validateEmail(value);
                   },
                 ),
                 const SizedBox(height: 30),
@@ -86,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       });
                     },
                   ),
-                  validator: (value) =>  validatePassword(value),
+                  validator: (value) => validatePassword(value),
                 ),
                 Align(
                   alignment: Alignment.centerRight,
@@ -127,7 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const UserRegistrationScreen(),
+                            builder: (context) =>
+                                const UserRegistrationScreen(),
                           ),
                         );
                       },
@@ -148,31 +147,37 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _loginHandler() {
-
-
     setState(() {
-      if(_formKey.currentState!.validate()){
-
-        if(_emailController.text.trim() == 'user@gmail.com'){
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => UserRootScreen(),), (route) => false);
-
-
-
+      if (_formKey.currentState!.validate()) {
+        if (_emailController.text.trim() == 'user@gmail.com') {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserRootScreen(),
+              ),
+              (route) => false);
         }
 
-        if(_emailController.text.trim() == 'techy@gmail.com'){
+        if (_emailController.text.trim() == 'techy@gmail.com') {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => home_technician(),
+              ),
+              (route) => false);
+        }
+        if(_emailController.text.trim() == 'staff@gmail.com'){
+
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StaffRootScreen(),
+              ),
+              (route) => false);
+
           
 
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => home_technician(),), (route) => false);
-
-
-
-
         }
-
-      
-      
-
       }
     });
   }

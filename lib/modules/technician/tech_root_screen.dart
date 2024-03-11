@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tv_service/modules/auth/login.dart';
 import 'package:tv_service/modules/technician/tech_complaint.dart';
+import 'package:tv_service/modules/technician/tech_rare_parts_list.dart';
+import 'package:tv_service/modules/technician/tech_rare_parts_screen.dart';
 import 'package:tv_service/modules/technician/tech_used_tv_list.dart';
 import 'package:tv_service/widgets/custom_card.dart';
 
@@ -11,11 +14,23 @@ class home_technician extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.amber,
-        centerTitle: true,
-        title: Text(
+        title: const Text(
           "TECHNICIAN",
           style: TextStyle(fontSize: 20),
         ),
+        actions: [
+          Text('log out'),
+          IconButton(
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                    (route) => false);
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(children: [
@@ -47,6 +62,13 @@ class home_technician extends StatelessWidget {
           Custom_Card(
             image: "assets/images/rare parts.png",
             text: "RARE PARTS",
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TechRarePartsScreens(),
+                  ));
+            },
           ),
         ]),
       ),

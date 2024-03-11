@@ -22,6 +22,7 @@ class Custom_Card extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Card(
+            color: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
