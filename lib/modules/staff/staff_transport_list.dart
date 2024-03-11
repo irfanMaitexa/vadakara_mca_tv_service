@@ -7,7 +7,7 @@ class TransportTvListScreen extends StatefulWidget {
 }
 
 class _TransportTvListScreenState extends State<TransportTvListScreen> {
-  int _currentIndex = 0;
+   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
