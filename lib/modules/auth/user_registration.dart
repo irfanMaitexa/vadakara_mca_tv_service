@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:tv_service/services/api_servicces.dart';
 import 'package:tv_service/utils/validator.dart';
 import 'package:tv_service/widgets/custom_button.dart';
 import 'package:tv_service/widgets/custom_text_field.dart';
@@ -24,6 +25,8 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _userRegisterFormKey = GlobalKey<FormState>();
+
+  bool loading = false;
 
   @override
   void dispose() {
@@ -50,7 +53,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
+        child: loading ? Center(child: CircularProgressIndicator(),) : Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Form(
             key: _userRegisterFormKey,
@@ -78,7 +81,7 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
                   hintText: 'Enter email',
                   controller: _emailController,
                 
-                  input: TextInputType.number,
+                  input: TextInputType.emailAddress,
                   borderColor: Colors.grey.shade300,
                    validator: (value) => validateEmail(value),
                 ),
@@ -126,16 +129,31 @@ class _UserRegistrationScreenState extends State<UserRegistrationScreen> {
     );
   }
 
-  _signUpHandler(BuildContext context) {
-    setState(() {
+  _signUpHandler(BuildContext context) async{
+    
       
       if (_userRegisterFormKey.currentState!.validate()) {
         if (_passwordController.text == _confirmPasswordController.text) {
+
+          setState(() {
+            loading = true;
+          });
+
+        
+         await  ApiServices().registerUser(
+            context, _nameControllers.text, _emailController.text, _phoneControllers.text, _confirmPasswordController.text);
+       
+         Navigator.pop(context);
+
+         setState(() {
+           loading = false;
+         });
+       
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Password not match')));
         }
       } 
-    });
+   
   }
 }
