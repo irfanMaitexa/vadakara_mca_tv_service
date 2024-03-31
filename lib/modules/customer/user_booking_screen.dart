@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:intl/intl.dart';
 import 'package:tv_service/modules/customer/customer_check_out_screen.dart';
+import 'package:tv_service/services/api_servicces.dart';
+import 'package:tv_service/services/db_services.dart';
 import 'package:tv_service/widgets/custom_button.dart';
 import 'package:tv_service/utils/constants.dart';
-
+import 'package:tv_service/widgets/custom_text_field.dart';
 
 class UserServiceBookingScreen extends StatefulWidget {
   const UserServiceBookingScreen({Key? key, required this.images})
@@ -20,10 +23,15 @@ class _UserServiceBookingScreenState extends State<UserServiceBookingScreen> {
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
 
+  final _brandcontroller = TextEditingController();
+  final _complaintController = TextEditingController();
+  final _modelController = TextEditingController();
+   bool loading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
+      body: loading ? Center(child: CircularProgressIndicator(),)  : SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Stack(
@@ -101,67 +109,65 @@ class _UserServiceBookingScreenState extends State<UserServiceBookingScreen> {
                         },
                       ),
                       const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Time',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          const SizedBox(height: 10),
-                          InkWell(
-                            onTap: () async {
-                              final TimeOfDay? picked = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              );
-                              if (picked != null && picked != _selectedTime) {
-                                setState(() {
-                                  _selectedTime = picked;
-                                
-                                });
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Text(
-                                '${_selectedTime.format(context)}',
-                                style: const TextStyle(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ],
+                      CustomTextField(
+                         borderColor: Colors.grey,
+                          hintText: 'Brand', controller: _brandcontroller),
+                      SizedBox(
+                        height: 20,
                       ),
-                      SizedBox(height: 20,),
+                      CustomTextField(
+                        hintText: 'Model',
+                        controller: _modelController,
+                         borderColor: Colors.grey,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CustomTextField(
+                          hintText: 'Complaint',
+                          borderColor: Colors.grey,
+                          maxline: 30,
+                          minLine: 6,
+                          controller: _complaintController),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: CustomButton(
-                          text: 'Proceed',
-                          onPressed: () {
-                            // QuickAlert.show(
-                            //   context: context,
-                            //   type: QuickAlertType.success,
-                            //   confirmBtnColor: KButtonColor,
-                            //   onConfirmBtnTap: () {
-                                
-                            //   },
-                            // );
-                            Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          UserCheckOutScreen(
-                                            image: '',
-                                            serviceName: 'service name',
-                                            serviceSubTitle: 'service',
-                                          )),
+                          text: 'Book now',
+                          onPressed: () async{
+
+                            try{
+
+
+                              setState(() {
+                                loading =  true;
+                              });
+
+
+                              await ApiServices().addComplaint(
+                                context: context, 
+                                loginId: DbService.getLoginId()!, 
+                                brand: _brandcontroller.text, 
+                                model: _modelController.text, 
+                                complaint: _complaintController.text, 
+                                date: DateFormat('dd-MM-yyyy').format(_selectedDate)
                                 );
+
+
+                                Navigator.pop(context);
+
+                              setState(() {
+                                loading = false;
+                              });
+
+                            }catch(e){
+
+                              setState(() {
+                                loading =  false;
+                              });
+
+                            }
+
+
                           },
                         ),
                       ),

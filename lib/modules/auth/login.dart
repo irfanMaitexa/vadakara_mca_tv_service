@@ -3,6 +3,7 @@ import 'package:tv_service/modules/auth/user_registration.dart';
 import 'package:tv_service/modules/customer/user_root_screen.dart';
 import 'package:tv_service/modules/staff/staff_root_screen.dart';
 import 'package:tv_service/modules/technician/tech_root_screen.dart';
+import 'package:tv_service/services/api_servicces.dart';
 import 'package:tv_service/utils/constants.dart';
 import 'package:tv_service/utils/validator.dart';
 import 'package:tv_service/widgets/custom_button.dart';
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.black, fontSize: 25, fontWeight: FontWeight.w600),
         ),
       ),
-      body: Padding(
+      body:loading ? Center(child: CircularProgressIndicator(),) : Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(
           child: Form(
@@ -146,39 +147,51 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _loginHandler() {
-    setState(() {
-      if (_formKey.currentState!.validate()) {
-        if (_emailController.text.trim() == 'user@gmail.com') {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => UserRootScreen(),
-              ),
-              (route) => false);
-        }
+  bool loading = false;
 
-        if (_emailController.text.trim() == 'techy@gmail.com') {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => home_technician(),
-              ),
-              (route) => false);
-        }
-        if(_emailController.text.trim() == 'staff@gmail.com'){
+  void _loginHandler() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        loading = true;
+      });
 
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => StaffRootScreen(),
-              ),
-              (route) => false);
+      var role = await ApiServices()
+          .loginUser(context, _emailController.text, _passwordController.text);
 
-          
+      print(role == 2);
 
-        }
+      if (role == 2) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserRootScreen(),
+            ),
+            (route) => false);
       }
+
+      if (_emailController.text.trim() == 'techy@gmail.com') {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => home_technician(),
+            ),
+            (route) => false);
+      }
+      if (_emailController.text.trim() == 'staff@gmail.com') {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StaffRootScreen(),
+            ),
+            (route) => false);
+      }
+    }
+
+    setState(() {
+      loading =  false;
     });
   }
+
+
+  
 }

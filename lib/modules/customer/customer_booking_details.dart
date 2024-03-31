@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomerBookingDetails extends StatelessWidget {
-  const CustomerBookingDetails({super.key, required this.image});
+  const CustomerBookingDetails({super.key, required this.image, required this.details});
 
   final String image;
+  final Map<String,dynamic> details;
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +51,12 @@ class CustomerBookingDetails extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Size',
+                                'Brand',
                                 style: TextStyle(color: Colors.grey.shade500),
                               ),
                               const Spacer(),
-                              const Text(
-                                '100',
+                               Text(
+                                details['brand'],
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),
@@ -67,13 +68,13 @@ class CustomerBookingDetails extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Serviece charge',
+                                'Date',
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.grey.shade500),
                               ),
                               const Spacer(),
-                              const Text(
-                                '100',
+                               Text(
+                                details['date'],
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),
@@ -85,13 +86,13 @@ class CustomerBookingDetails extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Booking date',
+                                'Model',
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.grey.shade500),
                               ),
                               const Spacer(),
-                              const Text(
-                                '10/3/2024',
+                               Text(
+                                details['model'],
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),
@@ -102,13 +103,13 @@ class CustomerBookingDetails extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                'Booking time',
+                                'Status',
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.grey.shade500),
                               ),
                               const Spacer(),
-                              const Text(
-                                '11:00 Am',
+                               Text(
+                                details['status'],
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),
@@ -118,16 +119,16 @@ class CustomerBookingDetails extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          Row(
+                          Column(
                             children: [
                               Text(
-                                'Status',
+                                'Complaints',
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.grey.shade500),
                               ),
-                              const Spacer(),
-                              const Text(
-                                'pending',
+                              SizedBox(height: 10,),
+                               Text(
+                                details['complaint'],
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),

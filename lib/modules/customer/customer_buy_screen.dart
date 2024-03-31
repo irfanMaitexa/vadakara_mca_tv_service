@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:tv_service/modules/customer/customer_check_out_screen.dart';
 import 'package:tv_service/widgets/custom_button.dart';
 
 class CustomerBuyScreen extends StatelessWidget {
-  const CustomerBuyScreen({super.key, required this.image});
+  const CustomerBuyScreen(
+      {super.key, required this.image, required this.details});
 
   final String image;
+  final Map<String, dynamic> details;
+
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      bottomSheet: CustomButton(
-        onPressed: () {},
-        text: 'Check Out',
+      bottomSheet: SizedBox(
+        width: MediaQuery.of(context).size.width - 50,
+        child: CustomButton(
+          onPressed: () {
+
+            Navigator.push(context, MaterialPageRoute(builder: (context) => UserCheckOutScreen(
+              image: details['image'],
+              serviceName: details['brand'],
+              serviceSubTitle: details['model'],
+              price: details['price'].toString(),
+            ),));
+
+          },
+          text: 'Check Out',
+        ),
       ),
       body: Column(
         children: [
@@ -47,12 +64,12 @@ class CustomerBuyScreen extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Size',
+                              'Brand',
                               style: TextStyle(color: Colors.grey.shade500),
                             ),
                             const Spacer(),
-                            const Text(
-                              '100',
+                            Text(
+                              details['brand'],
                               style:
                                   TextStyle(fontSize: 17, color: Colors.black),
                             ),
@@ -64,13 +81,13 @@ class CustomerBuyScreen extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              'Serviece charge',
+                              'Type',
                               style: TextStyle(
                                   fontSize: 17, color: Colors.grey.shade500),
                             ),
                             const Spacer(),
-                            const Text(
-                              '100',
+                            Text(
+                              details['type'],
                               style:
                                   TextStyle(fontSize: 17, color: Colors.black),
                             ),
@@ -96,6 +113,89 @@ class CustomerBuyScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        
+                        Row(
+                          children: [
+                            const Text(
+                              'Model',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const Spacer(),
+                            Text(
+                              details['model'],
+                              style: const TextStyle(
+                                  fontSize: 17, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            const Text(
+                              'Color',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const Spacer(),
+                            Text(
+                              details['color'],
+                              style: const TextStyle(
+                                  fontSize: 17, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                        const  SizedBox(height: 20,),
+                        Column(
+                          children: [
+                            const Text(
+                              'Description',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                             SizedBox(height: 20,),
+                            Text(
+                              details['description'],
+                              style: const TextStyle(
+                                  fontSize: 17, color: Colors.black),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 20,),
+                        Row(
+                          children: [
+                            const Text(
+                              'Price',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const Spacer(),
+                            Text(
+                              details['price'].toString(),
+                              style: const TextStyle(
+                                  fontSize: 17, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                        const  SizedBox(height: 60,),
+
+
+                        
+                        
                       ],
                     ),
                   ),
@@ -106,6 +206,5 @@ class CustomerBuyScreen extends StatelessWidget {
         ],
       ),
     );
-  
   }
 }

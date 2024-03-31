@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tv_service/modules/auth/login.dart';
+import 'package:tv_service/modules/customer/customer_home_screen.dart';
+import 'package:tv_service/modules/customer/user_root_screen.dart';
+import 'package:tv_service/services/db_services.dart';
 
-void main() {
+void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await DbService.init();
   runApp(const MyApp());
 }
 

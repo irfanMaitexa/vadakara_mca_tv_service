@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tv_service/modules/customer/customer_add_address.dart';
 import 'package:tv_service/modules/customer/customer_booking_conffirm_screen.dart';
+import 'package:tv_service/modules/customer/payment_screen.dart';
+import 'package:tv_service/services/api_servicces.dart';
+import 'package:tv_service/services/db_services.dart';
 import 'package:tv_service/widgets/custom_button.dart';
-import 'package:tv_service/widgets/custom_text_field.dart';
 
-class UserCheckOutScreen extends StatelessWidget {
+class UserCheckOutScreen extends StatefulWidget {
   UserCheckOutScreen({
     super.key,
     required this.image,
     required this.serviceName,
     required this.serviceSubTitle,
+    required this.price,
     this.date,
   });
 
@@ -16,9 +20,16 @@ class UserCheckOutScreen extends StatelessWidget {
   final String serviceName;
   final String serviceSubTitle;
   final dynamic date;
+  final String price;
 
-  final _addressController = TextEditingController();
-  final _phoneController = TextEditingController();
+  @override
+  State<UserCheckOutScreen> createState() => _UserCheckOutScreenState();
+}
+
+class _UserCheckOutScreenState extends State<UserCheckOutScreen> {
+  bool ispaid = false;
+  bool isAddreess = false;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +46,7 @@ class UserCheckOutScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Service',
+                'Tv',
                 style: TextStyle(color: Colors.black, fontSize: 18),
               ),
               const SizedBox(
@@ -55,23 +66,23 @@ class UserCheckOutScreen extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.only(right: 16),
                       child: Image.network(
-                        'https://via.placeholder.com/150',
+                        widget.image,
                         width: 50,
                         height: 50,
                       ),
                     ),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Heading',
+                          widget.serviceName,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
                         ),
                         Text(
-                          'Subheading',
+                          widget.serviceSubTitle,
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -84,75 +95,35 @@ class UserCheckOutScreen extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              const Text(
-                'Date & Time',
-                style: TextStyle(color: Colors.black, fontSize: 18),
+              Row(
+                children: [
+                  const Text(
+                    'Adress',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  const Spacer(),
+                  isAddreess
+                      ? Icon(Icons.done)
+                      : CustomButton(
+                          onPressed: () async {
+                            isAddreess = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CustomerAddAddress(),
+                                ));
+                            if (isAddreess) {
+                              setState(() {});
+                            }
+                          },
+                          text: 'add',
+                        ),
+                ],
               ),
-              const SizedBox(
-                height: 15,
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(10)),
-                child: const Row(
-                  children: [
-                    Icon(Icons.calendar_month),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('date'),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(10)),
-                child: const Row(
-                  children: [
-                    Icon(Icons.access_time),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('date'),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'Address',
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              CustomTextField(
-                hintText: 'Enter address',
-                controller: _addressController,
-                borderColor: Colors.grey.shade300,
-              ),
-              const Text(
-                'Phone',
-                style: TextStyle(color: Colors.black, fontSize: 18),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              CustomTextField(
-                hintText: 'Enter phone',
-                controller: _phoneController,
-                borderColor: Colors.grey.shade300,
-              ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: 30,
               ),
               const Text(
                 'Bill',
@@ -168,7 +139,7 @@ class UserCheckOutScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'Service Name',
+                          widget.serviceName,
                           style: TextStyle(color: Colors.grey.shade500),
                         ),
                       ],
@@ -179,21 +150,16 @@ class UserCheckOutScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'Serviece charge',
+                          widget.serviceSubTitle,
                           style: TextStyle(
                               fontSize: 17, color: Colors.grey.shade500),
-                        ),
-                        const Spacer(),
-                        const Text(
-                          '100',
-                          style: TextStyle(fontSize: 17, color: Colors.black),
                         ),
                       ],
                     ),
                     const SizedBox(
                       height: 20,
                     ),
-                    const Row(
+                    Row(
                       children: [
                         Text(
                           'Total',
@@ -204,7 +170,7 @@ class UserCheckOutScreen extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          '₹100',
+                          '₹${widget.price}',
                           style: TextStyle(fontSize: 17, color: Colors.black),
                         ),
                       ],
@@ -212,8 +178,6 @@ class UserCheckOutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              
-              
               const SizedBox(
                 height: 20,
               ),
@@ -227,10 +191,25 @@ class UserCheckOutScreen extends StatelessWidget {
                         fontWeight: FontWeight.w600),
                   ),
                   const Spacer(),
-                  CustomButton(
-                    onPressed: () {},
-                    text: 'pay',
-                  ),
+                  ispaid
+                      ? Icon(Icons.done)
+                      : CustomButton(
+                          onPressed: () async {
+                            ispaid = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PaymentScreen(
+                                  totalAmount: widget.price,
+                                ),
+                              ),
+                            );
+
+                            if (ispaid) {
+                              setState(() {});
+                            }
+                          },
+                          text: 'pay',
+                        ),
                 ],
               ),
               const SizedBox(
@@ -240,13 +219,29 @@ class UserCheckOutScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 child: CustomButton(
                   text: 'Place Order',
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CustomerBookingConfirmScreen(),
-                      ),
-                    );
+                  onPressed: () async {
+                    if (isAddreess && ispaid) {
+                      try {
+                        setState(() {
+                          loading = true;
+                        });
+
+                        ApiServices().placeOrder(
+                          context: context,
+                          loginId: DbService.getLoginId()!,
+                          orderDate:
+                              '${DateTime.now().day} -${DateTime.now().month} - ${DateTime.now().year}  ',
+                        );
+
+                        setState(() {
+                          loading = false;
+                        });
+                      } catch (e) {}
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Address or payment not complted!!!')));
+                    }
+
                   },
                 ),
               )
