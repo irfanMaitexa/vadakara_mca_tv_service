@@ -1,18 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class UserAddedTvDetailsScreen extends StatefulWidget {
-  const UserAddedTvDetailsScreen({super.key, required this.image, required this.details});
+class PartDetailsScreen extends StatefulWidget {
+  const PartDetailsScreen({super.key, required this.image});
 
 
   final  String image;
-  final  Map<String,dynamic> details;
- 
+
   @override
-  State<UserAddedTvDetailsScreen> createState() => _UserAddedTvDetailsScreenState();
+  State<PartDetailsScreen> createState() => _PartDetailsScreenState();
 }
 
-class _UserAddedTvDetailsScreenState extends State<UserAddedTvDetailsScreen> {
+class _PartDetailsScreenState extends State<PartDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -53,12 +51,12 @@ class _UserAddedTvDetailsScreenState extends State<UserAddedTvDetailsScreen> {
                           Row(
                             children: [
                               Text(
-                                'Brand',
+                                'Size',
                                 style: TextStyle(color: Colors.grey.shade500),
                               ),
                               const Spacer(),
-                               Text(
-                                widget.details['brand'],
+                              const Text(
+                                '100',
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),
@@ -70,13 +68,13 @@ class _UserAddedTvDetailsScreenState extends State<UserAddedTvDetailsScreen> {
                           Row(
                             children: [
                               Text(
-                                'Model',
+                                'Serviece charge',
                                 style: TextStyle(
                                     fontSize: 17, color: Colors.grey.shade500),
                               ),
                               const Spacer(),
-                               Text(
-                                widget.details['model'],
+                              const Text(
+                                '100',
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),
@@ -85,55 +83,10 @@ class _UserAddedTvDetailsScreenState extends State<UserAddedTvDetailsScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-
-                           Row(
+                          const Row(
                             children: [
                               Text(
-                                'Type',
-                                style: TextStyle(
-                                    fontSize: 17, color: Colors.grey.shade500),
-                              ),
-                              const Spacer(),
-                               Text(
-                                widget.details['type'],
-                                style:
-                                    TextStyle(fontSize: 17, color: Colors.black),
-                              ),
-                            ],
-                          ),
-
-                          const SizedBox(
-                            height: 20,
-                          ),
-
-                       
-                        
-
-                           Row(
-                            children: [
-                              Text(
-                                'color',
-                                style: TextStyle(
-                                    fontSize: 17, color: Colors.grey.shade500),
-                              ),
-                              const Spacer(),
-                               Text(
-                                widget.details['color'],
-                                style:
-                                    TextStyle(fontSize: 17, color: Colors.black),
-                              ),
-                            ],
-                          ),
-
-                          SizedBox(height: 20,),
-
-
-                          
-                       
-                           Row(
-                            children: [
-                              Text(
-                                'price',
+                                'Total',
                                 style: TextStyle(
                                     fontSize: 17,
                                     color: Colors.black,
@@ -141,7 +94,7 @@ class _UserAddedTvDetailsScreenState extends State<UserAddedTvDetailsScreen> {
                               ),
                               Spacer(),
                               Text(
-                                '₹${widget.details['price']}',
+                                '₹100',
                                 style:
                                     TextStyle(fontSize: 17, color: Colors.black),
                               ),

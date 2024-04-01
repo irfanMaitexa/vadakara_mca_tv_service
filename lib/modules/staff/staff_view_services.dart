@@ -5,15 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:tv_service/services/api_servicces.dart';
 import 'package:tv_service/widgets/custom_button.dart';
 
-class TechComplaintScreen extends StatefulWidget {
-  const TechComplaintScreen({super.key});
-
+class StaffViewServices extends StatefulWidget {
   @override
-  _TechComplaintScreenState createState() => _TechComplaintScreenState();
+  _StaffViewServicesState createState() => _StaffViewServicesState();
 }
 
-class _TechComplaintScreenState extends State<TechComplaintScreen> {
-  int _currentIndex  =  0;
+class _StaffViewServicesState extends State<StaffViewServices> {
+  int _currentIndex = 0;
 
   List<dynamic> pendingComplaints = [];
   List<dynamic> completedComplaints = [];
@@ -49,7 +47,7 @@ class _TechComplaintScreenState extends State<TechComplaintScreen> {
               .where((complaint) => complaint['status'] == 'pending')
               .toList();
           completedComplaints = data
-              .where((complaint) => complaint['status'] == 'fixed')
+              .where((complaint) => complaint['status'] == 'completed')
               .toList();
           confirmedComplaints = data
               .where((complaint) => complaint['status'] == 'confirmed')
@@ -84,13 +82,15 @@ class _TechComplaintScreenState extends State<TechComplaintScreen> {
   @override
   Widget build(BuildContext context) {
     return loading ?  Scaffold(body: Center(child: CircularProgressIndicator(),),) : DefaultTabController(
-      length: 2, // Changed length to 3 for the new "Confirm" tab
+      length: 3, // Changed length to 3 for the new "Confirm" tab
       child: Scaffold(
         backgroundColor: Colors.grey.shade300,
         appBar: AppBar(
           bottom: const TabBar(
             tabs: [
-             
+              Tab(
+                icon: Text('Pending'),
+              ),
               Tab(
                 icon: Text('Confirmed'),
               ),
@@ -103,8 +103,25 @@ class _TechComplaintScreenState extends State<TechComplaintScreen> {
         ),
         body: TabBarView(
           children: [
-            
-          
+            //tab bar pending
+            ListView.builder(
+              itemCount: pendingComplaints.length,
+              itemBuilder: (context, index) => TvComplaintCard(
+                status: 'pending',
+                buttonText: 'Confirm',
+                details: pendingComplaints[index],
+                onTab: () async{
+                  
+
+                    
+
+                    await ApiServices().updateComplaintStatus(context, pendingComplaints[index]['_id'], pendingComplaints[index]['date']);
+
+                    fetchComplaints();
+                },
+              ),
+            ),
+
              //tab bar Confirm
             ListView.builder(
               itemCount: confirmedComplaints.length,
@@ -112,10 +129,8 @@ class _TechComplaintScreenState extends State<TechComplaintScreen> {
                 status: 'Confirmed',
                 buttonText: 'Confirm',
                 details: confirmedComplaints[index],
-                onTab: ()  async{
-                  await ApiServices().updateServiceStatusTech(context, pendingComplaints[index]['_id'], pendingComplaints[index]['date']);
-
-                    fetchComplaints();
+                onTab: () {
+                  print('Confirmed: ${confirmedComplaints[index]}');
                 },
               ),
             ),

@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
       var role = await ApiServices()
           .loginUser(context, _emailController.text, _passwordController.text);
 
-      print(role == 2);
+      print(role);
 
       if (role == 2) {
         Navigator.pushAndRemoveUntil(
@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
             (route) => false);
       }
 
-      if (_emailController.text.trim() == 'techy@gmail.com') {
+      if (role == 4) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             (route) => false);
       }
-      if (_emailController.text.trim() == 'staff@gmail.com') {
+      if (role == 3) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(

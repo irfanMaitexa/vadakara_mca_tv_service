@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tv_service/modules/customer/customer_added_tv_list.dart';
 import 'package:tv_service/modules/customer/customer_booking_list.dart';
 import 'package:tv_service/modules/customer/customer_home_screen.dart';
+import 'package:tv_service/modules/customer/customer_order_list.dart';
 import 'package:tv_service/modules/customer/profile/user_profile_screen.dart';
 import 'package:tv_service/utils/constants.dart';
 
@@ -25,8 +26,11 @@ class _UserRootScreenState extends State<UserRootScreen> {
     const CustomerHomeScreen(),
     
     const CustomerAddedTvList(),
+    
     const CustomerServiceBookingList(),
-   CustomerProfileScreen()
+    const  CustomerOrderBookingList(),
+   CustomerProfileScreen(),
+   
   ];
 
   @override
@@ -60,6 +64,10 @@ class _UserRootScreenState extends State<UserRootScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.bookmark),
               label: 'Booking',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark_border),
+              label: 'Order',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),

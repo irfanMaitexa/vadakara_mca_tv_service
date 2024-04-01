@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tv_service/modules/auth/login.dart';
 import 'package:tv_service/modules/staff/staff_add_used_tv_list.dart';
 import 'package:tv_service/modules/staff/staff_transport_list.dart';
+import 'package:tv_service/modules/staff/staff_view_services.dart';
 import 'package:tv_service/widgets/custom_card.dart';
 
 class StaffRootScreen extends StatelessWidget {
@@ -54,21 +55,38 @@ class StaffRootScreen extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Custom_Card(
-              image: "assets/images/tvtranspot.jpg",
-              text: "Transport TV'S",
+              image: "assets/images/used tv.png",
+              text: "Services",
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TransportTvListScreen(),
+                    builder: (context) =>  StaffViewServices(),
                   ),
                 );
               },
             ),
           ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 10),
+          //   child: Custom_Card(
+          //     image: "assets/images/tvtranspot.jpg",
+          //     text: "Transport TV'S",
+          //     onPressed: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => TransportTvListScreen(),
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
+          
         ],
       ),
     );

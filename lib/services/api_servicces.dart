@@ -327,7 +327,7 @@ class ApiServices {
   }) async {
     // Show loading snack bar
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Row(
           children: [
             CircularProgressIndicator(),
@@ -362,7 +362,7 @@ class ApiServices {
       if (response.statusCode == 201) {
         Navigator.pop(context, true);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Address added successfully'),
           ),
         );
@@ -393,7 +393,7 @@ class ApiServices {
       required String orderDate}) async {
     // Show loading snack bar
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Row(
           children: [
             CircularProgressIndicator(),
@@ -428,7 +428,7 @@ class ApiServices {
           ),
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Order placed successfully'),
           ),
         );
@@ -452,4 +452,272 @@ class ApiServices {
       );
     }
   }
+
+  //fetch api
+  Future<List<dynamic>> fetchUserOrders(String loginId) async {
+    final url = Uri.parse('$baseUrl/api/user/view-order/$loginId');
+
+    try {
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        print(response.body);
+        return jsonDecode(response.body)['Data'];
+      } else {
+        throw Exception(
+            'Failed to fetch user orders. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch user orders. Error: $e');
+    }
+  }
+
+  //add used tv staff
+
+  Future<void> addUsedTVStaff({
+    required BuildContext context,
+    required String brand,
+    required String type,
+    required String model,
+    required String color,
+    required String price,
+    required String description,
+    required String image,
+  }) async {
+    // Show loading snack bar
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 16.0),
+            Text('Adding used TV...'),
+          ],
+        ),
+      ),
+    );
+
+    final url = Uri.parse('$baseUrl/api/staff/add-used-tv');
+
+    print(url);
+
+    // Create a multipart request
+    var request = http.MultipartRequest('POST', url);
+
+    print(price);
+
+    // Add fields to the request
+    request.fields['brand'] = brand;
+    request.fields['type'] = type;
+    request.fields['model'] = model;
+    request.fields['color'] = color;
+    request.fields['price'] = price;
+    request.fields['description'] = description;
+
+    var imageFile = await http.MultipartFile.fromPath('image', image);
+
+    request.files.add(imageFile);
+
+    try {
+      var response = await request.send();
+      final responseData = await response.stream.bytesToString();
+      final parsedData = json.decode(responseData);
+
+      // Hide the loading snack bar
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Used TV added successfully'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Failed to add used TV. Status code: ${response.statusCode}'),
+          ),
+        );
+      }
+    } catch (e) {
+      // Hide the loading snack bar
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred: $e'),
+        ),
+      );
+    }
+  }
+
+  //
+  Future<void> updateComplaintStatus(
+      BuildContext context, String id, String bookedDate) async {
+    final url =
+        Uri.parse('$baseUrl/api/staff/update-complaint-stat/$id/$bookedDate');
+
+    try {
+      final response = await http.put(url);
+
+      if (response.statusCode == 200) {
+        // Request successful, handle response
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Complaint status updated successfully'),
+        ));
+      } else {
+        // Request failed with a non-200 status code
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content:
+              Text('Failed to update complaint status: ${response.statusCode}'),
+        ));
+      }
+    } catch (e) {
+      // Request failed
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to update complaint status: $e'),
+      ));
+    }
+  }
+
+
+  //
+
+  Future<void> updateServiceStatusTech(BuildContext context, String id, String bookedDate) async {
+  final url = Uri.parse('$baseUrl/api/technician/update-complaint-stat/$id/$bookedDate');
+
+  print('hhhh$url');
+
+ 
+
+  try {
+
+
+   
+
+  
+
+     // Show snack bar with loading indicator
+  const snackBar = SnackBar(
+    content: Row(
+      children: [
+        CircularProgressIndicator(),
+        SizedBox(width: 20),
+        Text('Updating service status...'),
+      ],
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    // Hide snack bar
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+     final response = await http.put(url);
+
+     print('asdfghj');
+
+     print(response.body);
+
+    if (response.statusCode == 200) {
+      // Request successful, handle response
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Service status updated successfully'),
+      ));
+    } else {
+      // Request failed with a non-200 status code
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to update service status: ${response.statusCode}'),
+      ));
+    }
+  } catch (e) {
+    // Request failed
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Failed to update service status: $e'),
+    ));
+  }
 }
+
+//add rare parts
+Future<void> addSpareParts(BuildContext context, Map<String, dynamic> data, File imageFile) async {
+  final url = Uri.parse('$baseUrl/api/technician/add-spareparts');
+
+  // Show snack bar with loading indicator
+  const snackBar =  SnackBar(
+    content: Row(
+      children: [
+        CircularProgressIndicator(),
+        SizedBox(width: 20),
+        Text('Adding spare parts...'),
+      ],
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+  try {
+    // Create a multipart request
+    var request = http.MultipartRequest('POST', url);
+
+    // Add each parameter directly to the request
+    request.fields['brand'] = data['brand'].toString();
+    request.fields['part_name'] = data['part_name'].toString();
+    request.fields['type'] = data['type'].toString();
+    request.fields['model'] = data['model'].toString();
+    request.fields['color'] = data['color'].toString();
+    request.fields['price'] = data['price'].toString();
+    request.fields['description'] = data['description'].toString();
+
+    // Add the image file to the request
+    if (imageFile != null) {
+      request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+    }
+
+    // Send the request
+    var response = await request.send();
+
+   
+
+
+
+    if (response.statusCode == 201) {
+      // Request successful, handle response
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Spare parts added successfully'),
+
+
+      ));
+
+      Navigator.pop(context);
+    } else {
+      // Request failed with a non-200 status code
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to add spare parts: ${response.statusCode}'),
+      ));
+    }
+  } catch (e) {
+    // Request failed
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Failed to add spare parts: $e'),
+    ));
+  }
+}
+
+
+Future<Map<String, dynamic>> fetchUserProfile() async {
+    final response =
+        await http.get(Uri.parse('$baseUrl/api/profile/user/${DbService.getLoginId()}'));
+
+    if (response.statusCode == 200) {
+
+      print(json.decode(response.body)['data'][0]);
+      
+      return json.decode(response.body)['data'][0];
+    } else {
+      throw Exception('Failed to fetch user profile');
+    }
+  }
+
+}
+
+
+

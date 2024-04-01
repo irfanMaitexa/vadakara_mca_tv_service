@@ -34,17 +34,17 @@ class home_technician extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(children: [
-          Custom_Card(
-            image: "assets/images/used tv.png",
-            text: "USED TV'S",
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const TechUsedTvListScreen(),
-                  ));
-            },
-          ),
+          // Custom_Card(
+          //   image: "assets/images/used tv.png",
+          //   text: "USED TV'S",
+          //   onPressed: () {
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (context) => const TechUsedTvListScreen(),
+          //         ));
+          //   },
+          // ),
           Custom_Card(
             image: "assets/images/complaint.png",
             text: "COMPLAINTS",
